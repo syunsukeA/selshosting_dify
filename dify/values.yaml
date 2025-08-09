@@ -1,0 +1,30 @@
+global:
+  host: "dify.localhost"
+  enableTLS: false
+  image:
+    tag: "1.7.1"
+  extraBackendEnvs:
+    - name: SECRET_KEY
+      value: "change-me-to-a-long-random"
+    - name: LOG_LEVEL
+      value: "INFO"
+    - name: STORAGE_TYPE
+      value: "local"
+    - name: STORAGE_LOCAL_PATH
+      value: "/app/storage"
+    - name: AWS_EC2_METADATA_DISABLED
+      value: "true"
+
+api:
+  service:
+    type: ClusterIP   # ← そのままでOK（Ingress経由で出す）
+
+frontend:
+  service:
+    type: ClusterIP   # ← そのままでOK
+
+ingress:
+  enabled: true
+  className: "nginx"  # minikubeのingress-nginx
+  # hosts は省略（global.host を使用）
+  tls: []             # HTTP運用なら空のまま
